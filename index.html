@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Mía ❤️</title>
+<style>
+body{
+    margin:0; padding:0; font-family:'Georgia', serif;
+    background: radial-gradient(circle, #f8e8dc 0%, #e4c9b8 100%);
+    display:flex; justify-content:center; align-items:center; height:100vh; overflow:hidden; transition:1s;
+}
+
+.carta{
+    background:#fffaf3; padding:40px; width:90%; max-width:600px;
+    text-align:center; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    position:relative; animation:aparecer 1.5s ease;
+}
+
+h1{ font-size:28px; margin-bottom:20px; }
+p{ font-size:18px; line-height:1.6; min-height:140px; }
+
+button{
+    padding:12px 25px; font-size:16px; border:none; border-radius:25px; cursor:pointer;
+    margin:10px; transition:0.3s;
+}
+
+.si{ background:#b76e79; color:white; }
+.no{ background:#555; color:white; position:absolute; }
+
+/* Fotos en la carta */
+.fotos{
+    margin-top:20px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;
+}
+
+.fotos img{
+    width:120px; height:120px; object-fit:cover; border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2); transition: transform 0.3s;
+}
+
+.fotos img:hover{ transform: scale(1.1); }
+
+/* Escena final */
+.final{
+    display:none; position:absolute; text-align:center; color:white; animation:aparecer 2s ease; padding:20px;
+}
+
+.final h2{ font-size:40px; }
+.final p{ font-size:22px; }
+
+/* Fotos finales */
+.final-fotos{
+    margin-top:20px; display:flex; justify-content:center; gap:20px; overflow-x:auto; padding-bottom:10px;
+}
+
+.final-fotos img{
+    width:150px; height:150px; object-fit:cover; border-radius:15px;
+}
+
+/* 💍 ANILLO */
+.ring{ font-size:80px; margin-top:20px; animation: flotar 3s ease-in-out infinite, brillar 1.5s infinite alternate; }
+
+@keyframes flotar{ 0%{transform:translateY(0);} 50%{transform:translateY(-15px);} 100%{transform:translateY(0);} }
+@keyframes brillar{ from{filter:drop-shadow(0 0 5px gold);} to{filter:drop-shadow(0 0 25px gold);} }
+
+/* Corazones animados */
+.heart{ position:fixed; top:-10px; animation: caer linear infinite, girar 4s linear infinite; }
+@keyframes caer{ to{ transform:translateY(110vh); opacity:0; } }
+@keyframes girar{ 0% {transform:rotate(0deg);} 100% {transform:rotate(360deg);} }
+
+@keyframes aparecer{ from {opacity:0; transform:scale(0.8);} to {opacity:1; transform:scale(1);} }
+
+#texto{ padding:15px; background: rgba(255,255,255,0.6); border-radius:10px; }
+</style>
+</head>
+
+<body>
+
+<!-- Audio de fondo (sin autoplay) -->
+<audio id="audio" src="musica.mp3"></audio>
+<button onclick="toggleAudio()" style="position:fixed; top:10px; right:10px; padding:10px 15px; border:none; border-radius:10px; background:#b76e79; color:white; cursor:pointer;">🎵 Pausar/Reproducir</button>
+
+<div class="carta" id="carta">
+    <h1>Para Mía ❤️</h1>
+    <p id="texto"></p>
+
+    <!-- Fotos en la carta -->
+    <div class="fotos">
+        <img src="img/foto1.jpg" alt="Recuerdo 1">
+        <img src="img/foto2.jpg" alt="Recuerdo 2">
+        <img src="img/foto3.jpg" alt="Recuerdo 3">
+    </div>
+
+    <button class="si" onclick="aceptar()">Sí 💕</button>
+    <button class="no" onmouseover="mover(this)">No 😢</button>
+</div>
+
+<div class="final" id="final">
+    <h2>💖 Sabía que dirías que sí 💖</h2>
+    <p>
+        Entonces oficialmente…<br><br>
+        ¿Quieres ser mi San Valentín?<br><br>
+        Con todo mi amor,<br>
+        Teo ❤️
+    </p>
+
+    <!-- Fotos finales -->
+    <div class="final-fotos">
+        <img src="img/foto1.jpg" alt="">
+        <img src="img/foto2.jpg" alt="">
+        <img src="img/foto3.jpg" alt="">
+    </div>
+
+    <!-- 💍 ANILLO -->
+    <div class="ring">💍</div>
+</div>
+
+<script>
+// 💌 MÁQUINA DE ESCRIBIR
+const mensaje = `Desde que apareciste en mi vida,
+algo cambió dentro de mí.
+
+Tu sonrisa ilumina mis días,
+y tu forma de ser me hace querer quedarme.
+
+Por eso hoy quiero preguntarte algo especial…`;
+
+let i = 0;
+function escribir(){
+    if(i < mensaje.length){
+        document.getElementById("texto").innerHTML += 
+            mensaje.charAt(i) == "\n" ? "<br>" : mensaje.charAt(i);
+        i++;
+        setTimeout(escribir, 40);
+    }
+}
+window.onload = escribir;
+
+// 😈 BOTÓN QUE HUYE
+function mover(boton){
+    let maxX = window.innerWidth - boton.offsetWidth - 20;
+    let maxY = window.innerHeight - boton.offsetHeight - 20;
+    boton.style.top = Math.random() * maxY + "px";
+    boton.style.left = Math.random() * maxX + "px";
+}
+
+// 💖 ESCENA FINAL
+function aceptar(){
+    document.getElementById("carta").style.display="none";
+    document.body.style.background="linear-gradient(135deg,#b76e79,#6d2e46)";
+    document.getElementById("final").style.display="block";
+
+    // 🎵 Reproducir música solo al aceptar
+    const audio = document.getElementById("audio");
+    audio.play();
+    audio.loop = true;
+
+    for(let i=0;i<70;i++){
+        let heart = document.createElement("div");
+        heart.className="heart";
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.fontSize=(20+Math.random()*30)+"px";
+        heart.style.animationDuration=(3+Math.random()*3)+"s";
+        document.body.appendChild(heart);
+    }
+}
+
+// 🎵 CONTROL DE AUDIO
+function toggleAudio(){
+    const audio = document.getElementById("audio");
+    if(audio.paused) audio.play();
+    else audio.pause();
+}
+</script>
+
+</body>
+</html>
